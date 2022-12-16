@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/my_devices_header">
+        <Preference
+            android:id="@+id/connectStatus"
+            app:key="connectStatus"
+            app:summary="연결 상태"
+            app:selectable="true"
+            app:title="@string/connect_text" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/devices_mode">
+
+        <ListPreference
+            android:id="@+id/actionMode"
+            app:dependency="connectStatus"
+            app:entries="@array/action_mode_entries"
+            app:entryValues="@array/action_mode_values"
+            app:key="actionMode"
+            app:title="@string/action_mode"
+            app:useSimpleSummaryProvider="true" />
+
+        <SwitchPreference
+            android:id="@+id/controlMode"
+            app:dependency="connectStatus"
+            app:key="controlMode"
+            app:title="@string/control_mode" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
