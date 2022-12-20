@@ -1,4 +1,4 @@
-package com.example.warm_weather.Fragment;
+package com.example.happy_mountain.Fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
-import com.example.warm_weather.R;
+import com.example.happy_mountain.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 

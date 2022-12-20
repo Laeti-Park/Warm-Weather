@@ -1,4 +1,4 @@
-package com.example.warm_weather
+package com.example.happy_mountain
 
 import org.junit.Test
 

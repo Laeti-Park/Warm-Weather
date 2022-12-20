@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.WarmWeather" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.HappyMountain" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/app_green1</item>
         <item name="colorPrimaryVariant">@color/app_green2</item>

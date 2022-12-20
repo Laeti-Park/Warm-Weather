@@ -1,4 +1,4 @@
-package com.example.warm_weather
+package com.example.happy_mountain
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.warm_weather", appContext.packageName)
+        assertEquals("com.example.happy_mountain", appContext.packageName)
     }
 }

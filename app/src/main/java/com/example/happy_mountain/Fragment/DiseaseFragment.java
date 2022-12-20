@@ -1,4 +1,4 @@
-package com.example.warm_weather.Fragment;
+package com.example.happy_mountain.Fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -8,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.warm_weather.API.WeatherAPI;
-import com.example.warm_weather.R;
+import com.example.happy_mountain.Model.LocationModel;
+import com.example.happy_mountain.R;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +21,12 @@ import java.util.TimeZone;
 
 public class DiseaseFragment extends Fragment {
     private final String tag = this.getClass().toString();
+
+    private LocationModel locationModel;
+    private double longitude;
+    private double latitude;
+    private double altitude;
+
 
     @SuppressLint("DefaultLocale")
     public DiseaseFragment() {
@@ -43,12 +49,18 @@ public class DiseaseFragment extends Fragment {
         }
 
         Log.d("[Warm-Weather]" + tag, paramDate + " " + paramHour);
-        new WeatherAPI(paramDate, paramHour, "55", "127");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationModel = new ViewModelProvider(requireActivity()).get(LocationModel.class);
+        locationModel.getLocationData().observe(requireActivity(), locationItem -> {
+            Log.d("hello", "hello");
+            altitude = locationItem.getAltitude();
+            latitude = locationItem.getLatitude();
+            longitude = locationItem.getLongitude();
+        });
     }
 
     @SuppressLint("SetTextI18n")

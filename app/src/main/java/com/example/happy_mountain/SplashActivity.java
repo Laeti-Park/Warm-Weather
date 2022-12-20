@@ -1,4 +1,4 @@
-package com.example.warm_weather;
+package com.example.happy_mountain;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.example.warm_weather.databinding.ActivitySplashBinding;
+import com.example.happy_mountain.databinding.ActivitySplashBinding;
 
 /**
  * SplashActivity : 앱 시작 시 띄우는 화면
  */
 @SuppressLint("CustomSplashScreen")
-public class SplashActivity extends Activity {
+public class SplashActivity extends Activity{
     private ActivitySplashBinding binding;
 
     protected void onCreate(Bundle savedInstanceState) {
