@@ -1,41 +1,40 @@
 package com.example.happy_mountain.Fragment;
 
+import static com.naver.maps.map.NaverMap.LAYER_GROUP_MOUNTAIN;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_mountain.BuildConfig;
+import com.example.happy_mountain.Data.MountainData;
 import com.example.happy_mountain.Data.WeatherData;
-import com.example.happy_mountain.MainActivity;
 import com.example.happy_mountain.Model.LocationModel;
+import com.example.happy_mountain.Model.MountainModel;
 import com.example.happy_mountain.Model.WeatherModel;
-import com.example.happy_mountain.R;
 import com.example.happy_mountain.databinding.FragmentTodayBinding;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraPosition;
+import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.UiSettings;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.util.FusedLocationSource;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,10 +74,15 @@ public class TodayFragment extends Fragment implements OnMapReadyCallback {
     private WeatherModel weatherModel;
     private List<WeatherData> weatherDataList = new ArrayList<>();
 
+    private MountainModel mountainModel;
+
     private TextView longitudeView;
     private TextView latitudeView;
     private MapView mapView;
     private static NaverMap naverMap;
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private FusedLocationSource locationSource;
 
     @SuppressLint("DefaultLocale")
     public TodayFragment() {
@@ -86,13 +90,14 @@ public class TodayFragment extends Fragment implements OnMapReadyCallback {
         timeZone = TimeZone.getTimeZone("Asia/Seoul");
         nowDateFormat.setTimeZone(timeZone);
         nowHourFormat.setTimeZone(timeZone);
-
-        Log.d("[TodayFragment]" + tag, paramDate + " " + paramHour);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locationSource =
+                new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -104,10 +109,11 @@ public class TodayFragment extends Fragment implements OnMapReadyCallback {
         latitudeView = binding.latitudeView;
         mapView = binding.mapView;
 
-        Log.d("[TodayFragmentTextView]" + tag, latitudeView.getText() + " " + longitudeView.getText());
+        Log.d("[TodayFragment] view", latitudeView.getText() + " " + longitudeView.getText());
 
         locationModel = new ViewModelProvider(requireActivity()).get(LocationModel.class);
         weatherModel = new ViewModelProvider(requireActivity()).get(WeatherModel.class);
+        mountainModel = new ViewModelProvider(requireActivity()).get(MountainModel.class);
         locationModel.getLocationData().observe(requireActivity(), locationItem -> {
             long now = System.currentTimeMillis();
             Date date = new Date(now);
@@ -117,7 +123,9 @@ public class TodayFragment extends Fragment implements OnMapReadyCallback {
 
             latitude = locationItem.getLatitude();
             longitude = locationItem.getLongitude();
-            latLng = new LatLng(latitude, longitude);
+
+            latLng = new LatLng(locationItem.getLatitude(), locationItem.getLongitude());
+            Log.i("아저씨", latLng + "");
 
             latitudeView.setText(String.valueOf((int) latitude));
             longitudeView.setText(String.valueOf((int) longitude));
@@ -245,13 +253,43 @@ public class TodayFragment extends Fragment implements OnMapReadyCallback {
             }, 0);
         } else {
             TodayFragment.naverMap = naverMap;
-            CameraPosition cameraPosition = new CameraPosition(latLng, 12);
+            CameraPosition cameraPosition = new CameraPosition(latLng, 15);
             UiSettings uiSettings = naverMap.getUiSettings();
 
+            CameraUpdate cameraUpdate = CameraUpdate.scrollTo(latLng);
+            Marker marker = new Marker();
+
+            naverMap.setMapType(NaverMap.MapType.Terrain); // 산악 지형
             naverMap.setCameraPosition(cameraPosition);
+            naverMap.setLocationSource(locationSource);
             naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
+            naverMap.setLayerGroupEnabled(LAYER_GROUP_MOUNTAIN, true);
 
             uiSettings.setLocationButtonEnabled(true);
+
+            naverMap.moveCamera(cameraUpdate);
+
+            naverMap.addOnCameraChangeListener((reason, animated) -> {
+                Log.i("NaverMap", "카메라 변경 - reson: " + reason + ", animated: " + animated + ", camera : " + naverMap.getCameraPosition());
+                marker.setPosition(naverMap.getCameraPosition().target);
+
+                Log.i("NaverMap", naverMap.getCameraPosition().target + " " + latLng);
+                if (latLng.distanceTo(naverMap.getCameraPosition().target) >= 10) {
+                    marker.setMap(naverMap);
+                } else {
+                    marker.setMap(null);
+                }
+            });
+
+            List<MountainData> mountainDataList = mountainModel.getMountainDataList().getValue();
+            Log.i("MountainSIB", mountainDataList.size() + "");
+            for (int i = 0; i < (mountainDataList != null ? mountainDataList.size() : 0); i++) {
+                Marker mountainMarker = new Marker();
+                double mountainLatitude = Double.parseDouble(mountainDataList.get(i).getMountainLatitude());
+                double mountainLongitude = Double.parseDouble(mountainDataList.get(i).getMountainLongitude());
+                mountainMarker.setPosition(new LatLng(mountainLatitude, mountainLongitude));
+                mountainMarker.setMap(naverMap);
+            }
         }
     }
 }

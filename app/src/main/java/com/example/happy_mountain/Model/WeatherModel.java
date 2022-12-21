@@ -8,9 +8,7 @@ import com.example.happy_mountain.Data.WeatherData;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class WeatherModel extends ViewModel {
-    // Expose screen UI state
     private MutableLiveData<List<WeatherData>> weatherDataList;
     List<WeatherData> items = new ArrayList<>();
 
