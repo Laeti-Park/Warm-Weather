@@ -1,11 +1,14 @@
 package com.example.happy_mountain;
 
+import static android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
+import android.content.pm.Signature;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,35 +25,27 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.happy_mountain.Data.LocationData;
-import com.example.happy_mountain.Data.MountainData;
-import com.example.happy_mountain.Fragment.ForestPointFragment;
-import com.example.happy_mountain.Fragment.SettingsFragment;
-import com.example.happy_mountain.Fragment.TodayFragment;
-import com.example.happy_mountain.Model.LocationModel;
-import com.example.happy_mountain.Model.MountainModel;
 import com.example.happy_mountain.databinding.ActivityMainBinding;
+import com.example.happy_mountain.fragment.ForestPointFragment;
+import com.example.happy_mountain.fragment.LocationFragment;
+import com.example.happy_mountain.fragment.SettingsFragment;
+import com.example.happy_mountain.item.LocationItem;
+import com.example.happy_mountain.model.LocationModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private final String tag = this.getClass().toString();
 
     private ActivityMainBinding binding;
 
     LocationModel locationModel;
     LocationManager locationManager;
-    MountainModel mountainModel;
 
-    TodayFragment todayFragment = new TodayFragment();
+    LocationFragment todayFragment = new LocationFragment();
     ForestPointFragment forestPointFragment = new ForestPointFragment();
     SettingsFragment settingsFragment = new SettingsFragment();
 
@@ -63,20 +58,38 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         BottomNavigationView bottomMenu = binding.bottomMenu;
 
+        // 해쉬 키 구하기
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), GET_SIGNING_CERTIFICATES);
+                Signature[] signatures = packageInfo.signingInfo.getApkContentsSigners();
+
+                for (int i = 0; i < signatures.length; i++) {
+                    MessageDigest message = MessageDigest.getInstance("SHA");
+                    message.update(signatures[i].toByteArray());
+
+                    String hash = Base64.getEncoder().encodeToString(message.digest());
+                    Log.d("Main", "Hash : " + hash);
+                }
+            }
+        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
         bottomMenu.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.bottomMenu1:
-                    Log.d("[" + tag + "]", "BottomMenu1 : Home");
+                    Log.d("[Main]", "BottomMenu1 : Home");
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameLayout, todayFragment).commitAllowingStateLoss();
                     return true;
                 case R.id.bottomMenu2:
-                    Log.d("[" + tag + "]", "BottomMenu2 : Control");
+                    Log.d("[Main]", "BottomMenu2 : Control");
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameLayout, forestPointFragment).commitAllowingStateLoss();
                     return true;
                 case R.id.bottomMenu3:
-                    Log.d("[" + tag + "]", "BottomMenu3 : Settings");
+                    Log.d("[Main]", "BottomMenu3 : Settings");
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameLayout, settingsFragment).commitAllowingStateLoss();
                     return true;
@@ -86,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Log.d("[MainActivity] LOC-M", locationManager + "");
+        Log.d("[Main] LOC-M", locationManager + "");
 
         if (Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -99,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
             }, 0);
         } else {
-            Log.d("[MainActivity]", "START LOCATION");
+            Log.d("[Main]", "START LOCATION");
             startLocation();
         }
     }
@@ -119,49 +132,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         locationModel = new ViewModelProvider(this).get(LocationModel.class);
-        Log.d("[MainActivity] LOC0", location + "");
+        Log.d("[Main] LOC0", location + "");
         if (location != null) {
-            Log.d("[MainActivity]", "Location Null");
+            Log.d("[Main]", "Location Null");
             String provider = location.getProvider();
             double longitude = location.getLongitude();
             double latitude = location.getLatitude();
-            double altitude = location.getAltitude();
 
-            Log.d("[MainActivity] LOC1", "위치정보 : " + provider + " 위도 : " + longitude + " 경도 : " + latitude + " 고도 : " + altitude);
+            Log.d("[Main] LOC1", "위치정보 : " + provider + " 위도 : " + longitude + " 경도 : " + latitude);
 
-            locationModel.getLocationData().postValue(new LocationData(longitude, latitude, altitude));
+            locationModel.getLocationData().postValue(new LocationItem(longitude, latitude));
         }
 
-        // 위치 정보를 원하는 시간, 거리마다 갱신
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000,
-                1,
-                locationListener);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                1000,
-                1,
-                locationListener);
-
-        mountainModel = new ViewModelProvider(this).get(MountainModel.class);
-
-        try {
-            AssetManager assetManager = this.getAssets();
-            InputStream inputStream = assetManager.open("mountain_info.csv");
-
-            CSVReader csvReader = new CSVReader(new InputStreamReader(inputStream));
-            String[] nextLine;
-            List<MountainData> items = new ArrayList<>();
-
-            while ((nextLine = csvReader.readNext()) != null) {
-                MountainData mountainData = new MountainData(nextLine[0], nextLine[1], nextLine[2], nextLine[3], nextLine[4], nextLine[5]);
-                items.add(mountainData);
-            }
-
-            mountainModel.getMountainDataList().postValue(items);
-        } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
-        }
-
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationListener);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frameLayout, todayFragment).commitAllowingStateLoss();
@@ -178,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if (!granted) {
-                Toast.makeText(getApplication(), getString(R.string.permission_setting), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(), getString(R.string.permissionSetting), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                         .setData(Uri.parse("package:" + getPackageName()));
                 finish();
@@ -195,10 +179,9 @@ public class MainActivity extends AppCompatActivity {
             String provider = location.getProvider();  // 위치정보
             double longitude = location.getLongitude(); // 위도
             double latitude = location.getLatitude(); // 경도
-            double altitude = location.getAltitude(); // 고도
-            Log.d("[MainActivity] LOC", "위치정보 : " + provider + " 위도 : " + longitude + " 경도 : " + latitude + " 고도 : " + altitude);
+            Log.d("[Main] LOC", "위치정보 : " + provider + " 위도 : " + longitude + " 경도 : " + latitude);
 
-            locationModel.getLocationData().postValue(new LocationData(longitude, latitude, altitude));
+            locationModel.getLocationData().postValue(new LocationItem(longitude, latitude));
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {

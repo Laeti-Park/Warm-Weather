@@ -2,13 +2,14 @@
 
     <!-- Application Main -->
     <string name="app_name">따시다</string>
+    <string name="permissionSetting">일부 권한 요청이 거부되었습니다.\n앱 설정에서 모든 권한을 허용해주세요.</string>
 
-    <string name="permission_setting">일부 권한 요청이 거부되었습니다.\n앱 설정에서 모든 권한을 허용해주세요.</string>
     <!-- Bottom Menu -->
-    <string name="today">투데이</string>
-    <string name="disease">질병</string>
+    <string name="location">주변지역</string>
+    <string name="forestPoint">도시별</string>
     <string name="settings">설정</string>
 
+    <string name="myLocation">현위치</string>
 
     <string name="connect_text">연결 상태</string>
     <string name="bluetooth">블루투스</string>

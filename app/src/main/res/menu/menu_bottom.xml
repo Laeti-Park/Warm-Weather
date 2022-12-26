@@ -3,11 +3,11 @@
     <item
         android:id="@+id/bottomMenu1"
         android:icon="@drawable/menu_today"
-        android:title="@string/today" />
+        android:title="@string/location" />
     <item
         android:id="@+id/bottomMenu2"
         android:icon="@drawable/menu_schedule"
-        android:title="@string/disease" />
+        android:title="@string/forestPoint" />
     <item
         android:id="@+id/bottomMenu3"
         android:icon="@drawable/menu_settings"

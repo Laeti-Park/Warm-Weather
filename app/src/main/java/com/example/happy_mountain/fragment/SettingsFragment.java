@@ -1,4 +1,4 @@
-package com.example.happy_mountain.Fragment;
+package com.example.happy_mountain.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

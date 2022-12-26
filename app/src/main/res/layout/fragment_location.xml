@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".fragment.LocationFragment">
+
+    <RelativeLayout
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:layout_margin="10sp"
+        android:background="@drawable/selector_my_location"
+        android:orientation="vertical"
+        android:padding="8sp"
+        tools:ignore="RtlHardcoded">
+
+        <TextView
+            android:id="@+id/temperatureView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/environment_regular"
+            android:hint="@string/temperature"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/humidityView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/environment_regular"
+            android:hint="@string/humidity"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/myLocationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginStart="10sp"
+        android:layout_marginBottom="10sp"
+        android:background="@drawable/selector_my_location"
+        android:padding="4sp"
+        android:src="@drawable/location_my_location"
+        tools:ignore="RtlHardcoded"
+        android:contentDescription="@string/myLocation" />
+
+
+</FrameLayout>

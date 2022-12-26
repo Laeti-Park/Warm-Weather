@@ -1,18 +1,12 @@
-package com.example.happy_mountain.Data;
+package com.example.happy_mountain.item;
 
-public class LocationData {
+public class LocationItem {
     private double longitude;
     private double latitude;
-    private double altitude;
 
-    public LocationData(double longitude, double latitude, double altitude) {
+    public LocationItem(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
-        this.altitude = altitude;
-    }
-
-    public double getAltitude() {
-        return altitude;
     }
 
     public double getLatitude() {
@@ -21,10 +15,6 @@ public class LocationData {
 
     public double getLongitude() {
         return longitude;
-    }
-
-    public void setAltitude(double altitude) {
-        this.altitude = altitude;
     }
 
     public void setLatitude(double latitude) {
