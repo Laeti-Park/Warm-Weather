@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
 
-public interface LocationAPI {
+public interface MountainAPI {
     @GET("v2/local/search/keyword.json")
     @NotNull
     Call<MountainItem> getSearchKeyword(
@@ -18,7 +18,7 @@ public interface LocationAPI {
             @Query("category_group_code") String category,
             @Query("x") String x,
             @Query("y") String y,
-            @Query("radius") int radius,
+            @Query("radius") Integer radius,
             @Query("sort") String sort
     );
 }

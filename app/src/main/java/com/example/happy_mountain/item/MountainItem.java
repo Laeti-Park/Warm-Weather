@@ -30,6 +30,14 @@ public final class MountainItem {
         return this.documents.get(num).roadAddressName;
     }
 
+    public Double getX(int num) {
+        return Double.parseDouble(this.documents.get(num).x);
+    }
+
+    public Double getY(int num) {
+        return Double.parseDouble(this.documents.get(num).y);
+    }
+
     static class Place {
         @SerializedName("place_name")
         @Expose
@@ -40,7 +48,11 @@ public final class MountainItem {
         @SerializedName("road_address_name")
         @Expose
         private String roadAddressName;
+        @SerializedName("x")
+        @Expose
         private String x;
+        @SerializedName("y")
+        @Expose
         private String y;
     }
 }
