@@ -4,30 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_green1"
     android:gravity="center"
-    tools:context=".MainActivity"
-    android:background="@color/app_green1">
+    tools:context=".MainActivity">
 
 
     <ImageView
         android:id="@+id/appLogo"
-        android:layout_width="160sp"
-        android:layout_height="160sp"
-        android:src="@drawable/house1"
+        android:layout_width="300sp"
+        android:layout_height="300sp"
+        android:contentDescription="@string/appName"
+        android:src="@drawable/splash_application_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/appName" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"
         android:fontFamily="@font/environment_bold"
         android:gravity="center"
         android:text="@string/appName"
         android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appLogo" />

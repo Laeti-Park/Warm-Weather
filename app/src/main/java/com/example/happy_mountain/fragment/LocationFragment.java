@@ -17,26 +17,26 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.happy_mountain.BuildConfig;
 import com.example.happy_mountain.R;
+import com.example.happy_mountain.databinding.FragmentLocationBinding;
 import com.example.happy_mountain.item.AreaItem;
 import com.example.happy_mountain.item.MountainItem;
 import com.example.happy_mountain.item.WeatherItem;
 import com.example.happy_mountain.model.LocationModel;
 import com.example.happy_mountain.model.WarningRateModel;
 import com.example.happy_mountain.model.WeatherModel;
-import com.example.happy_mountain.databinding.FragmentLocationBinding;
 import com.example.happy_mountain.retrofit.AreaAPI;
 import com.example.happy_mountain.retrofit.MountainAPI;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
-import net.daum.mf.map.api.MapView;
-import net.daum.mf.map.api.MapView.MapViewEventListener;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
-import net.daum.mf.map.api.MapView.POIItemEventListener;
-import net.daum.mf.map.api.MapView.OpenAPIKeyAuthenticationResultListener;
+import net.daum.mf.map.api.MapView;
 import net.daum.mf.map.api.MapView.CurrentLocationEventListener;
+import net.daum.mf.map.api.MapView.MapViewEventListener;
+import net.daum.mf.map.api.MapView.OpenAPIKeyAuthenticationResultListener;
+import net.daum.mf.map.api.MapView.POIItemEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,9 +141,7 @@ public class LocationFragment extends Fragment implements MapViewEventListener, 
             mapView.setMapCenterPointAndZoomLevel(MapPoint.mapPointWithGeoCoord(locationItem.getLatitude(), locationItem.getLongitude()), 6, true);
             mapView.setCurrentLocationTrackingMode(MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving);
 
-            myLocationButton.setOnClickListener(v -> {
-                mapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(locationItem.getLatitude(), locationItem.getLongitude())));
-            });
+            myLocationButton.setOnClickListener(v -> mapView.moveCamera(CameraUpdateFactory.newMapPoint(MapPoint.mapPointWithGeoCoord(locationItem.getLatitude(), locationItem.getLongitude()))));
 
             updateWeather((int) currentLatitude, (int) currentLongitude);
         });

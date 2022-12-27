@@ -19,8 +19,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "WEATHER_API_KEY", properties['weather_api_key']
-        buildConfigField "String", "MOUNTAIN_WEATHER_API_KEY", properties['weather_api_key']
-        buildConfigField "String", "MOUNTAIN_POINT_API_KEY", properties['mountain_point_api_key']
         buildConfigField "String", "KAKAO_API_KEY", properties['kakao_api_key']
     }
 
