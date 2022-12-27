@@ -1,48 +1,22 @@
 <resources>
 
     <!-- Application Main -->
-    <string name="app_name">따시다</string>
+    <string name="appName">Happy</string>
     <string name="permissionSetting">일부 권한 요청이 거부되었습니다.\n앱 설정에서 모든 권한을 허용해주세요.</string>
 
     <!-- Bottom Menu -->
-    <string name="location">주변지역</string>
-    <string name="forestPoint">도시별</string>
+    <string name="location">지도</string>
+    <string name="forestPoint">최근경보</string>
     <string name="settings">설정</string>
 
     <string name="myLocation">현위치</string>
 
-    <string name="connect_text">연결 상태</string>
-    <string name="bluetooth">블루투스</string>
-    <string name="status_description">상태 이미지</string>
+    <string name="date">날짜</string>
+    <string name="area">위치</string>
 
-    <string name="dust">농도</string>
-    <string name="dust_hint">150</string>
-    <string name="dust_unit">㎍/m³</string>
-
-    <string name="status">실내 공기</string>
-    <string name="status_hint1">좋음</string>
-    <string name="status_hint2">내용</string>
-
-    <string name="temperature">온도</string>
-    <string name="temperature_hint">40</string>
-    <string name="temperature_unit">℃</string>
-
-    <string name="humidity">습도</string>
-    <string name="humidity_hint">100</string>
-    <string name="humidity_unit">%</string>
-
-    <string name="action_mode">동작 모드</string>
-    <string name="auto_mode">자동</string>
-    <string name="dark_mode">야간</string>
-    <string name="like_mode">선호</string>
-
-    <string name="control_mode">조작 모드</string>
-    <string name="manual_mode">수동</string>
-
-    <!-- Preference Titles -->
-    <string name="my_devices_header">내 기기</string>
-    <string name="devices_mode">기기 모드</string>
-
+    <string name="warning_rate">주의등급</string>
+    <string name="effectiveHumidity">실효습도</string>
+    <string name="windSpeed">풍속</string>
     <!-- Messages Preferences -->
     <string name="signature_title">Your signature</string>
 

@@ -1,6 +1,6 @@
 package com.example.happy_mountain.item;
 
-public class ForestPointItem {
+public class WarningRateItem {
     private final String time;
     private final String area;
     private final String location;
@@ -8,13 +8,17 @@ public class ForestPointItem {
     private final String windSpeed;
     private final String warningRate;
 
-    public ForestPointItem(String time, String area, String location, String humidity, String windSpeed, String warningRate) {
+    public WarningRateItem(String time, String area, String location, String humidity, String windSpeed, String warningRate) {
         this.time = time;
         this.area = area;
         this.location = location;
         this.humidity = humidity;
         this.windSpeed = windSpeed;
         this.warningRate = warningRate;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public String getArea() {

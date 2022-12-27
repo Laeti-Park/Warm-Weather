@@ -8,8 +8,4 @@
         android:id="@+id/bottomMenu2"
         android:icon="@drawable/menu_schedule"
         android:title="@string/forestPoint" />
-    <item
-        android:id="@+id/bottomMenu3"
-        android:icon="@drawable/menu_settings"
-        android:title="@string/settings" />
 </menu>

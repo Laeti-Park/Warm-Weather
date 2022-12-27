@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4sp"
+        android:background="@drawable/shape_warning_rate_background"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,16 +19,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/layer_list_warning_rate_contour"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.4"
                 android:fontFamily="@font/environment_bold"
-                android:paddingLeft="4sp"
-                android:text="날짜"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:text="@string/date"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
 
             <TextView
                 android:id="@+id/textView"
@@ -33,9 +38,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/environment_bold"
-                android:paddingLeft="4sp"
-                android:text="위치"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:text="@string/area"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
@@ -44,24 +50,61 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/dateView_f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="1.4"
                 android:fontFamily="@font/environment_regular"
-                android:hint="100"
-                android:paddingLeft="4sp"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
 
             <TextView
-                android:id="@+id/location"
+                android:id="@+id/locationView_f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/environment_regular"
-                android:hint="100"
-                android:paddingLeft="4sp"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layer_list_warning_rate_contour"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/environment_bold"
+                android:paddingStart="4sp"
+                android:text="@string/warning_rate"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/environment_bold"
+                android:paddingStart="4sp"
+                android:text="@string/effectiveHumidity"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/environment_bold"
+                android:paddingStart="4sp"
+                android:text="@string/windSpeed"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,67 +113,34 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/environment_bold"
-                android:paddingLeft="4sp"
-                android:text="주의등급"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/environment_bold"
-                android:paddingLeft="4sp"
-                android:text="실효습도"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/environment_bold"
-                android:paddingLeft="4sp"
-                android:text="풍속"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/warningRate"
+                android:id="@+id/warningRateView_f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/environment_regular"
-                android:hint="0"
-                android:paddingLeft="4sp"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
 
             <TextView
-                android:id="@+id/humidity"
+                android:id="@+id/humidityView_f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/environment_regular"
-                android:hint="0"
-                android:paddingLeft="4sp"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
 
             <TextView
-                android:id="@+id/windSpeed"
+                android:id="@+id/windSpeed_f"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/environment_regular"
-                android:hint="0"
-                android:paddingLeft="4sp"
-                android:textSize="20sp" />
+                android:paddingStart="4sp"
+                android:textSize="20sp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </LinearLayout>
 
